@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Connect 4</title>
+
+    <meta name="description" content="This site provides an interactive connect 4 game, fully online with personal accounts and game-history tracking">
+<meta name="keywords" content="connect4,355,queenscollege,nyc">
+<meta name="author" content="Jairo Molina & Wei Ting">
+<meta property="og:image" content="img/favicon.png">
+
+<link rel="icon" href="img/favicon.png">
+  </head>
+  <!-- bootstrap css -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- custom css -->
+    <link href="css/custom.css" rel="stylesheet">
+  <body>
+
+    <nav class="navbar fixed-top navbar-expand-lg customnavbar">
+  <a class="navbar-brand" href="#play">Connect 4</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon">&#8650;</span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#rules">Rules<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#history">History</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#about">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=connect4">Search</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          More games
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="https://www.mathsisfun.com/games/connect4.html">Connect 4 v1</a>
+          <a class="dropdown-item" href="https://papergames.io/en/connect4">Connect 4 v2</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class = "play-section" >
+  <p class = "neon" id = "play"><a class = "neon-button" href="">
+  PLAY NOW</a>
+</div>
+
+<div class = "rules-section" >
+  <div class="blue-heading" id = "rules">
+    <h2>RULES</h2>
+  </div>
+  <div class = "rules-content">
+    <p class = "rule-item"> 1. CHOOSE YOUR COLOR </p>
+    <p class = "rule-item"> 2. A SINGLE PLAYER DROPS ONE DISC PER TURN </p>
+    <p class = "rule-item"> 3. WHOMEVER GETS FOUR DISC VERTICALLY,HORIZONTALLY OR DIAGONALLY WINS </p>
+    <p class = "rule-item"> 4. NO CHANGING COLORS MIDGAME </p>
+    <p class = "rule-item"> 5. NO TAKING OUT DISCS </p>
+  </div>
+<div>
+
+<div class = "history-section" id = "history">
+  <div class="red-heading">
+    <h2>HISTORY</h2>
+  </div>
+  <div class="container">
+    <div class = "row history-content" id = "">
+      <div class = "col-sm-6">
+        <img id = "history-picture" src="img/favicon.png" alt="connect4">
+      </div>
+      <div class = "col-sm-6">
+        <p id = "history-description">Connect 4 is a two-player connection board game in which the players first choose a color and then take turns dropping one colored disc from the top into a seven-column, six-row vertically suspended grid. The pieces fall straight down, occupying the lowest available space within the column. The objective of the game is to be the first to form a horizontal, vertical, or diagonal line of four of one's own discs. </p>
+      </div>
+    </div>
+  </div>
+<div>
+
+<div class = "about-section" id = "about">
+  <div class = "blue-heading">
+    <h2>ABOUT US</h2>
+  </div>
+
+  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="card">
+  <img class="card-img-top" src="img/jmolina.png" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Jairo Molina</h5>
+    <p class="card-text">Senior at Queens College. In charged of backend</p>
+  </div>
+</div>
+      </div>
+      <div class="carousel-item">
+        <div class="card">
+  <img class="card-img-top" src="img/weiting.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Wei Ting</h5>
+    <p class="card-text">Senior at Queens College. In charged of frontend.</p>
+  </div>
+</div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+<div class = "contact-section" id = "contact">
+  <div class = "red-heading">
+    <h2> CONTACT US </h2>
+  </div>
+
+
+</div>
+
+
+
+<!-- jquery cdn -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- jquery cdn -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<!-- bootstrap min js -->
+<script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* main */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #222222;
+  background: repeating-linear-gradient(45deg, #2b2b2b 0%, #2b2b2b 10%, #222222 0%, #222222 50%) 0 / 15px 15px;
+}
+
+/* nav bar css */
+
+.customnavbar {
+  font-family: 'Press Start 2P';
+  font-size: 1em;
+  background-color: #222222;
+
+}
+
+.nav-link, .navbar-brand{
+  color: #fff;
+  font-family: 'Press Start 2P';
+  font-size: 15px;
+
+  text-shadow: 0 0 5px #fff,
+    0 0 10px #ff2211,
+    0 0 11px #ff2211,
+    0 0 32px #ff2211;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+  color: #fff;
+
+  -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon1 1.5s ease-in-out infinite alternate;
+  animation: neon1 1.5s ease-in-out infinite alternate;
+
+}
+
+.dropdown-menu {
+  background-color: #222222;
+
+  text-shadow: 0 0 5px #fff,
+    0 0 10px #ff2211,
+    0 0 11px #ff2211,
+    0 0 32px #ff2211;
+
+}
+
+.dropdown-item {
+  color: white;
+}
+
+.dropdown-item:hover {
+  background-color: #222222;
+  color:#fff;
+
+  -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon1 1.5s ease-in-out infinite alternate;
+  animation: neon1 1.5s ease-in-out infinite alternate;
+}
+
+.navbar-toggler-icon {
+  color: #ff2211;
+  font-weight: bolder;
+}
+
+/* play_section */
+
+.play-section {
+  /* border-style: solid;
+  border-color: white; */
+
+  margin-top: 200px;
+
+}
+
+/* rules_section */
+.rules-section {
+  /* border-style: solid;
+  border-color: white; */
+
+  color: white;
+}
+
+.blue-heading{
+  /* border-style: solid;
+  border-color: white; */
+
+  font-size: 55px;
+  text-align: center;
+  font-size: 3em;
+
+  padding-top: 200px;
+  padding-bottom: 100px;
+
+  font-family: 'Press Start 2P';
+  -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon2 1.5s ease-in-out infinite alternate;
+  animation: neon2 1.5s ease-in-out infinite alternate;
+
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.rules-content {
+  /* border-style: solid;
+  border-color: white; */
+  text-align: center;
+}
+
+.rule-item {
+  font-family: 'Press Start 2P';
+  margin-bottom: 50px;
+  text-shadow:     0 0 5px #fff,
+    0 0 10px #0000d8,
+    0 0 11px #0000d8,
+    0 0 32px #0000d8;
+}
+
+/* history section */
+.history-section {
+  /* border-style: solid;
+  border-color: white; */
+  color: white;
+}
+
+.red-heading{
+  /* border-style: solid;
+  border-color: white; */
+
+  padding-top: 200px;
+  padding-bottom: 100px;
+
+  font-size: 55px;
+  text-align: center;
+  font-size: 3em;
+
+
+  font-family: 'Press Start 2P';
+  -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon1 1.5s ease-in-out infinite alternate;
+  animation: neon1 1.5s ease-in-out infinite alternate;
+
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.history-content {
+  /* border-style: solid;
+  border-color: white; */
+
+}
+
+#history-picture {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+}
+
+#history-description {
+  text-align:justify;
+    font-family: 'Press Start 2P';
+    line-height: 2;
+
+    text-shadow: 0 0 5px #fff,
+      0 0 10px #ff2211,
+      0 0 11px #ff2211,
+      0 0 32px #ff2211;
+}
+
+/* about section */
+.about-section {
+  /* border-style: solid;
+  border-color: white; */
+
+  color: white;
+}
+
+
+.card {
+  width: 18em;
+  margin: 0 auto; /* Added */
+  float: none; /* Added */
+  margin-bottom: 10px; /* Added */
+}
+
+.card-body {
+    font-family: 'Press Start 2P';
+    font-size: 10px;
+
+  line-height: 3;
+
+  text-shadow:     0 0 5px #fff,
+    0 0 10px #0000d8,
+    0 0 11px #0000d8,
+    0 0 32px #0000d8;
+
+
+}
+
+.card-img-top {
+  border-radius: 30px;
+  min-width: 300px;
+  min-height: 400px;
+}
+
+/* Contact section */
+.contact-section {
+  margin-top: 100px;
+}
+
+/* Neon */
+.neon {
+  text-align: center;
+  font-size: 3em;
+  padding-top: 64px;
+}
+
+.neon-button {
+  color: #fff;
+  font-family: 'Press Start 2P';
+  -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon1 1.5s ease-in-out infinite alternate;
+  animation: neon1 1.5s ease-in-out infinite alternate;
+
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.neon-button:hover {
+  color: #ff2211;
+  -webkit-animation: none;
+  -moz-animation: none;
+  animation: none;
+  text-decoration: none;
+}
+
+/* glow for mozilla */
+@-moz-keyframes neon1 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff2211, 0 0 70px #ff2211, 0 0 80px #ff2211, 0 0 100px #ff2211, 0 0 150px #ff2211;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff2211, 0 0 35px #ff2211, 0 0 40px #ff2211, 0 0 50px #ff2211, 0 0 75px #ff2211;
+  }
+}
+
+@-moz-keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #0000d8, 0 0 70px #0000d8, 0 0 80px #0000d8, 0 0 100px #0000d8, 0 0 150px #0000d8;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0000d8, 0 0 35px #0000d8, 0 0 40px #0000d8, 0 0 50px #0000d8, 0 0 75px #0000d8;
+  }
+}
+
+/* general glow */
+@keyframes neon1 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1177, 0 0 70px #ff2211, 0 0 80px #ff2211, 0 0 100px #ff2211, 0 0 150px #ff2211;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff2211, 0 0 35px #ff2211, 0 0 40px #ff2211, 0 0 50px #ff2211, 0 0 75px #ff2211;
+  }
+}
+
+@keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #0000d8, 0 0 70px #0000d8, 0 0 80px #0000d8, 0 0 100px #0000d8, 0 0 150px #0000d8;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0000d8, 0 0 35px #0000d8, 0 0 40px #0000d8, 0 0 50px #0000d8, 0 0 75px #0000d8;
+  }
+}
+
+/*RESPONSIVE*/
+@media (max-width: 650px) {
+  /* TO DO */
+}
