@@ -1,4 +1,26 @@
-<!DOCTYPE html>
+<?php
+include("config.php");
+   session_start();
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = $_POST['username'] ?? '';
+  $password = $_POST['password'] ?? '';
+
+  $sql = "SELECT username FROM users WHERE username = '$username' AND password = '$password'";
+
+  $result = mysqli_query($link, $sql);
+
+  if(mysqli_num_rows($result) == 1) {
+    $_SESSION["logged_in"] = true;
+    $_SESSION["username"] = $username;
+  } else {
+    print '<script>alert("User does not exist...");</script>';
+  }
+}
+
+?>
+
+
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -17,9 +39,29 @@
     <link href="css/custom.css" rel="stylesheet">
   <body>
 
-    <div class="red-heading">
-      <h2>hello world 1</h2>
-    </div>
+
+    <form action = "" method = "post" id = "loginform" >
+
+      <label>UserName  :</label><input type = "text" name = "username" class = "box"/><br /><br />
+      <label>Password  :</label><input type = "password" name = "password" class = "box" /><br/><br />
+
+      <input type = "submit" value = " Submit "/><br />
+
+    </form>
+
+    <?php
+    if($_SESSION['logged_in'] && $_SESSION['logged_in'] != '') {
+      ?>
+      <script type = "text/javascript"> document.getElementById("loginform").style.display="none";
+      </script>
+      <?
+      echo "<div class = 'red-heading'>";
+      echo "<h2> Welcome, ";
+      echo $_SESSION['username'];
+      echo "</h2>";
+      echo "</div>";
+    }
+     ?>
 
 
 
@@ -33,20 +75,5 @@
 </html>
 
 <?php
-
-$link = mysqli_connect("localhost:3306", "spykegtp_1", "Nnc=-6Lhkxij", "spykegtp_connectfour");
-
-
-if (!$link) {
-    echo "Error: Unable to connect to MySQL." . PHP_EOL;
-    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
-    exit;
-}
-
-echo "Success: A proper connection to MySQL was made! The my_db database is great." . PHP_EOL;
-echo "Host information: " . mysqli_get_host_info($link) . PHP_EOL;
-
-mysqli_close($link);
+session_destroy();
 ?>
- ?>
