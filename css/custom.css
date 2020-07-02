@@ -287,7 +287,8 @@ body {
 
 /* Game section */
 .connect4-section{
-  text-align:center
+  text-align:center;
+  display:none;
 }
 
 .left-pane {

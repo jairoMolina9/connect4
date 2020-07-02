@@ -2,13 +2,15 @@
 include("config.php");
    session_start();
 
-if($_SERVER["REQUEST_MEtdOD"] == "POST") {
+if($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'] ?? '';
   $password = $_POST['password'] ?? '';
 
   $sql = "SELECT username FROM users WHERE username = '$username' AND password = '$password'";
 
   $result = mysqli_query($link, $sql);
+
+  console_log($result);
 
   if(mysqli_num_rows($result) == 1) {
     $_SESSION["logged_in"] = true;
@@ -37,13 +39,12 @@ if($_SERVER["REQUEST_MEtdOD"] == "POST") {
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- custom css -->
   <link  href="css/custom.css" rel="stylesheet">
-
+<!-- custom js -->
   <script src="js/custom.js"></script>
   </head>
   <body>
 
-    <!--
-    <form action = "" metdod = "post" id = "loginform" >
+    <form action = "" method = "post" id = "loginform" >
 
       <label>UserName  :</label><input type = "text" name = "username" class = "box"/><br /><br />
       <label>Password  :</label><input type = "password" name = "password" class = "box" /><br/><br />
@@ -51,24 +52,8 @@ if($_SERVER["REQUEST_MEtdOD"] == "POST") {
       <input type = "submit" value = " Submit "/><br />
 
     </form>
-  -->
 
-    <?php /*
-    if($_SESSION['logged_in'] && $_SESSION['logged_in'] != '') {
-      ?>
-      <script type = "text/javascript"> document.getElementById("loginform").style.display="none";
-      </script>
-      <?
-      echo "<div class = 'red-heading'>";
-      echo "<h2> Welcome, ";
-      echo $_SESSION['username'];
-      echo "</h2>";
-      echo "</div>";
-    }
-    */
-     ?>
-
-     <div class = "connect4-section">
+     <div class = "connect4-section" id = "connect4">
        <div class = "red-heading">
          <h2> CONNECT 4 </h2>
        </div>
@@ -105,12 +90,23 @@ if($_SERVER["REQUEST_MEtdOD"] == "POST") {
          </div>
 
          <div class = "col-md-2 right-pane">
-           <p> RESTART / $USER won </p>
+           <p id = "user_winner"></p>
+           <button onclick="resetGame()" type="button" class="btn btn-outline-primary">RESTART</button>
          </div>
 
      </div>
    </div>
      </div>
+
+     <?php
+     if($_SESSION['logged_in'] && $_SESSION['logged_in'] != '') {
+
+       ?>
+       <script type = "text/javascript"> document.getElementById("loginform").style.display="none"; document.getElementById("connect4").style.display="block";
+       </script>
+       <?
+     }
+       ?>
 
 <!-- jquery cdn -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -122,5 +118,5 @@ if($_SERVER["REQUEST_MEtdOD"] == "POST") {
 </html>
 
 <?php
-session_destroy();
+
 ?>
