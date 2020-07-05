@@ -1,8 +1,17 @@
+try {
+  console.log(player_name);
+} catch (e) {
+  console.log("player_name not defined yet");
+}
+
 var current_player = "blue_player";
 var finished = false;
+var flag = false;
 var gameID = Date.now();
 
+
 function startGame () {
+
   var tbl = document.getElementById("tblMain");
   if (tbl != null) {
       for (var i = 0; i < tbl.rows.length; i++) {
@@ -13,11 +22,14 @@ function startGame () {
                  };
       }
   }
-
-
+  document.getElementById("game-id").innerHTML = gameID;
 }
 
 function getval(cel) {
+  if(!flag) {
+    newGame();
+    flag = true;
+  }
 
   var data = cel.id;
   var col_numb = data.charAt(data.length-1);
@@ -41,8 +53,15 @@ function play(cel) {
     insertBlue(cel);
 
     if(checkWinner()) {
+      if(typeof player_name !== 'undefined') {
+          document.getElementById("user_winner").innerHTML = player_name + " WON";
+      } else {
+
       document.getElementById("user_winner").innerHTML = "BLUE PLAYER WON";
+    }
       finished = true;
+      sendWinner(current_player);
+
     } else {
       document.getElementById("user_turn").innerHTML = "RED PLAYER";
     }
@@ -54,19 +73,137 @@ function play(cel) {
 
       document.getElementById("user_winner").innerHTML = "RED PLAYER WON";
       finished = true;
+      sendWinner(current_player);
 
     } else {
-
-      document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
+      if(typeof player_name !== 'undefined') {
+          document.getElementById("user_turn").innerHTML = player_name;
+      } else {
+        document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
+      }
     }
 
 
   }
 }
 
+function newGame() {
+  var name = "";
+  if(typeof player_name !== 'undefined') {
+    name = player_name;
+  } else {
+    name = "guest";
+  }
+  $.ajax({
+    type: 'POST',
+    url: '../game.php',
+    data: {
+      newgame: gameID,
+      playername: name
+    },
+    success: function(data) {
+      //handle.innerHTML = data;
+      console.log("newGame()");
+    },
+    error: function (jqXHR) {
+      handle.innerText = 'Error: ' + jqXHR.status;
+    }
+  });
+}
+
+function sendWinner(current_player){
+  var tmp_name = "";
+
+  //checks if player has name and checks winner (whoever had prev turn)
+  if(typeof player_name !== 'undefined') {
+    if(current_player == "red_player"){
+      tmp_name = player_name;
+    } else {
+      tmp_name = "red_player";
+    }
+  } else {
+      if(current_player == "red_player"){
+          tmp_name = "blue_player";
+        } else {
+          tmp_name = "red_player";
+        }
+  }
+
+  $.ajax({
+    type: 'POST',
+    url: '../game.php',
+    data: {
+      winner: tmp_name,
+      w_game_id: gameID
+    },
+    success: function(data) {
+      //handle.innerHTML = data;
+      console.log("sendWinner()");
+    },
+    error: function (jqXHR) {
+      handle.innerText = 'Error: ' + jqXHR.status;
+    }
+  });
+}
+
+function resetGame() {
+  $.ajax({
+    type: 'POST',
+    url: '../game.php',
+    data: {
+      restart: gameID
+    },
+    success: function(data) {
+      //handle.innerHTML = data;
+      console.log("resetGame()");
+    },
+    error: function (jqXHR) {
+      handle.innerText = 'Error: ' + jqXHR.status;
+    }
+  });
+
+  flag = false;
+  gameID = Date.now();
+  var tbl = document.getElementById("tblMain");
+  document.getElementById("game-id").innerHTML = gameID;
+
+  if(typeof player_name !== 'undefined') {
+      document.getElementById("user_turn").innerHTML = player_name;
+  } else {
+    document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
+  }
+  document.getElementById("user_winner").innerHTML = "";
+
+  current_player = "blue_player";
+  finished = false;
+
+  for(var row = 0 ; row < tbl.rows.length; row++) {
+    for(var col = 0; col <tbl.rows[row].cells.length; col++) {
+      tbl.rows[row].cells[col].className = "tab-col";
+    }
+  }
+}
+
 function sendMovement(cel) {
-  var data = [gameID, cel.id, current_player];
-  console.log(data);
+  var handle = document.getElementById('response');
+  var info = [gameID, cel.id, current_player];
+
+  $.ajax({
+    type: 'POST',
+    url: '../game.php',
+    data: {
+      gameID: info[0],
+      coord: info[1],
+      player: info[2]
+    },
+    success: function(data) {
+      //handle.innerHTML = data;
+      console.log("sendMovement()");
+    },
+    error: function (jqXHR) {
+      handle.innerText = 'Error: ' + jqXHR.status;
+    }
+  });
 }
 
 
@@ -223,19 +360,26 @@ function checkVertical(tbl) {
   return false;
 }
 
+function getLoginForm() {
+  document.getElementById("pre-game").style.display = "block";
 
-function resetGame() {
-  //gameID = Date.now();
-  var tbl = document.getElementById("tblMain");
+  document.getElementById("login-form").style.display="block";
+  document.getElementById("register-form").style.display="none";
+  document.getElementById("guest-form").style.display="none";
+}
 
-  document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
-  document.getElementById("user_winner").innerHTML = "";
-  current_player = "blue_player";
-  finished = false;
+function getRegisterForm() {
+  document.getElementById("pre-game").style.display = "block";
 
-  for(var row = 0 ; row < tbl.rows.length; row++) {
-    for(var col = 0; col <tbl.rows[row].cells.length; col++) {
-      tbl.rows[row].cells[col].className = "tab-col";
-    }
-  }
+  document.getElementById("login-form").style.display="none";
+  document.getElementById("register-form").style.display="block";
+  document.getElementById("guest-form").style.display="none";
+}
+
+function getGuestForm() {
+  document.getElementById("pre-game").style.display = "block";
+
+  document.getElementById("login-form").style.display="none";
+  document.getElementById("register-form").style.display="none";
+  document.getElementById("guest-form").style.display="block";
 }

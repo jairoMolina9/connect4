@@ -7,14 +7,16 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE Games (
-  gameID int(50) PRIMARY KEY,
-  userID int(50) FOREIGN KEY REFERENCES Users(userID),
-  winner varchar(50)
+  gameID BIGINT PRIMARY KEY,
+  userID varchar(50),
+  winner varchar(50),
+  FOREIGN KEY (userID) REFERENCES Users(userID)
 );
 
 CREATE TABLE Moves (
-  gameID int(50) PRIMARY KEY,
+  moveID int(50) AUTO_INCREMENT PRIMARY KEY,
+  gameID BIGINT,
   coordinate CHAR(3),
-  playerID varchar(50),
-  FOREIGN KEY (gameID) REFERENCES Games(gameID)
+  playerID varchar(50)
+  -- FOREIGN KEY (gameID) REFERENCES Games(gameID)
 );

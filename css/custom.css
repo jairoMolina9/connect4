@@ -285,6 +285,17 @@ body {
   }
 }
 
+/* LOGIN FORM */
+.login-section {
+  text-align: center;
+  margin-top: 30vh;
+  color: white;
+}
+
+#register-form, #guest-form {
+  display: none;
+}
+
 /* Game section */
 .connect4-section{
   text-align:center;
@@ -296,6 +307,10 @@ body {
     border-style: solid;
     border-color: red;
   color: white;
+}
+
+#game-id {
+  word-wrap:break-word;
 }
 
 .right-pane {
