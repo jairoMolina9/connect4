@@ -17,6 +17,6 @@ CREATE TABLE Moves (
   moveID int(50) AUTO_INCREMENT PRIMARY KEY,
   gameID BIGINT,
   coordinate CHAR(3),
-  playerID varchar(50)
+  playerTurn varchar(50)
   -- FOREIGN KEY (gameID) REFERENCES Games(gameID)
 );

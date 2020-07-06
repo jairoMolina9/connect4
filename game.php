@@ -12,6 +12,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       $sql = "UPDATE Games SET winner = '$winner' WHERE gameID = '$gameID'";
 
       mysqli_query($link,$sql);
+
+      if(isset($_SESSION['username'])) {
+
+        if($winner != 'blue_player' && $winner != 'red_player') {
+          $sql = "UPDATE Users SET wins = (SELECT COUNT(winner) FROM Games WHERE winner = '$winner') WHERE username = '$winner'";
+          mysqli_query($link,$sql);
+        } else {
+          $username = $_SESSION['username'];
+          $sql = "UPDATE Users SET losses = (SELECT COUNT(winner) FROM Games WHERE userID = '$username' AND winner !='$username') WHERE username = '$username'";
+          mysqli_query($link,$sql);
+        }
+      }
+
     }
 
     $username = "empty";
@@ -72,14 +85,63 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     } else if ($_POST['submit'] == 'Guest') {
-      $_SESSION['logged_in'] = true;
 
-      if(isset($_POST['gameid'])) {
-        //
+      if(isset($_POST['pregameid']) && $_POST['pregameid'] != null) {
+        $gameID = $_POST['pregameid'];
+        $sql = "SELECT coordinate, playerTurn FROM Moves WHERE gameID = '$gameID'";
+
+          if($result = mysqli_query($link,$sql)) {
+        if(!mysqli_num_rows($result)) {
+          print '<script>alert("Wrong game ID...");</script>';
+        } else {
+          $_SESSION['logged_in'] = true;
+          $gamedata = array();
+
+          $gamedata = mysqli_fetch_all($result, MYSQLI_NUM);
+
+          $sql = "SELECT userID FROM Games WHERE gameID = '$gameID'";
+          //player_name
+          $result = mysqli_query($link,$sql);
+          $row = mysqli_fetch_all($result, MYSQLI_NUM);
+          $username = $row[0];
+
+          if($username[0] != 'guest') {
+            ?>
+            <script> var player_name = <?php echo json_encode($username); ?></script>
+            <?
+          }
+
+          $sql = "SELECT winner FROM Games WHERE gameID = '$gameID'";
+          $result = mysqli_query($link,$sql);
+          $row = mysqli_fetch_all($result, MYSQLI_NUM);
+          $pregamewinner = $row[0];
+
+          $sql = "SELECT playerTurn FROM Moves WHERE gameID = '$gameID' AND moveID = (SELECT MAX(moveID) FROM Moves WHERE gameID = '$gameID');";
+          $result = mysqli_query($link, $sql);
+          $row = mysqli_fetch_all($result, MYSQLI_NUM);
+          $lasturn = $row[0][0];
+
+          if($lasturn == "blue_player") {
+            $_SESSION['guest-turn'] = "RED PLAYER";
+          } else {
+            $_SESSION['guest-turn'] = $username[0];
+          }
+
+          ?>
+          <script type="text/javascript">
+          var gamedata = <?php echo json_encode($gamedata); ?>;
+          var pregameID = '<?php echo ($gameID);?>';
+          var pregamewinner = <?php echo json_encode($pregamewinner);?>;
+          </script>
+          <?
+
+        }
       }
+    } else {
+        $_SESSION['logged_in'] = true;
     }
-
   }
+}
 
   if ( isset($_POST['coord'])) {
 
@@ -88,7 +150,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $player = $_POST['player'];
     // echo "gameID: " . $gameID . "\nCoord: " . $coord . "\nPlayer: " . $player;
 
-    $sql = ("INSERT INTO Moves(gameID, coordinate, playerID) VALUES ('$gameID', '$coord', '$player')");
+    $sql = ("INSERT INTO Moves(gameID, coordinate, playerTurn) VALUES ('$gameID', '$coord', '$player')");
 
     mysqli_query($link,$sql);
 
@@ -96,6 +158,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $gameID = $_POST['restart'];
     $sql = ("DELETE FROM Moves WHERE gameID = '$gameID'");
+    mysqli_query($link,$sql);
+
+    $sql = ("DELETE FROM Games WHERE gameID = '$gameID'");
     mysqli_query($link,$sql);
       }
 
@@ -156,22 +221,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <form action ="game.php" method = "post" id = "guest-form" >
 
-        <label>Enter GameID:</label><input type = "text" name = "gameid" class = "box"/><br /><br />
+        <label>Enter GameID:</label><input type = "text" name = "pregameid" placeholder="Optional" class = "box"/><br /><br />
 
 
         <button onclick="getLoginForm()" type = "button">Login</button>
         <button onclick="getRegisterForm()" type = "button">Register</button>
         <input type = "submit" name = "submit"  value = "Guest"/>
-      </form>
-
-    </div>
-
-    <div class = "pregame" id = "pre-game">
-
-      <form action ="game.php" method = "post" id = "pregame-form" >
-
-        <label>Enter GameID:</label><input type = "text" name = "gameid" class = "box"/><br /><br />
-        <input type = "submit" name = "submit"  value = "Start"/>
       </form>
 
     </div>
@@ -191,7 +246,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                <?php
                if(isset($_SESSION['username'])){
                  echo $_SESSION['username'];
-               } else {
+               } else if (isset($_SESSION['guest-turn'])) {
+                 echo $_SESSION['guest-turn'];
+               }else {
                  echo "BLUE PLAYER";
                }
                ?>
@@ -214,7 +271,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 echo "</tr>";
               }
-              echo "<script type = 'text/javascript'>startGame()</script>";
+
              ?>
 
             </tbody>
@@ -224,9 +281,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
          <div class = "col-md-2 right-pane">
            <p id = "user_winner"></p>
-           <button onclick="resetGame()" type="button" class="btn btn-outline-primary">RESTART</button>
+           <button id = "restart" onclick="resetGame('restart')" type="button" class="btn btn-outline-primary">RESTART</button>
+
            <p style = "color: white;" id="response"></p>
            <?php
+             echo "<script type = 'text/javascript'>
+             startGame();setPregame();
+             </script>";
               if(isset($_SESSION['username'])) {
 
             ?>

@@ -7,6 +7,7 @@ try {
 var current_player = "blue_player";
 var finished = false;
 var flag = false;
+var pregame = false;
 var gameID = Date.now();
 
 
@@ -22,7 +23,12 @@ function startGame () {
                  };
       }
   }
+  if(typeof pregameID !== 'undefined') {
+  document.getElementById("game-id").innerHTML = pregameID;
+  gameID = pregameID;
+} else {
   document.getElementById("game-id").innerHTML = gameID;
+}
 }
 
 function getval(cel) {
@@ -61,6 +67,8 @@ function play(cel) {
     }
       finished = true;
       sendWinner(current_player);
+      document.getElementById("restart").innerHTML = "NEW GAME"; //new button
+      document.getElementById("restart").setAttribute("onclick","resetGame('newgame')");
 
     } else {
       document.getElementById("user_turn").innerHTML = "RED PLAYER";
@@ -74,11 +82,14 @@ function play(cel) {
       document.getElementById("user_winner").innerHTML = "RED PLAYER WON";
       finished = true;
       sendWinner(current_player);
+      document.getElementById("restart").innerHTML = "NEW GAME"; //new button
+      document.getElementById("restart").setAttribute("onclick","resetGame('newgame')");
 
     } else {
       if(typeof player_name !== 'undefined') {
           document.getElementById("user_turn").innerHTML = player_name;
       } else {
+
         document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
       }
     }
@@ -146,21 +157,70 @@ function sendWinner(current_player){
   });
 }
 
-function resetGame() {
-  $.ajax({
-    type: 'POST',
-    url: '../game.php',
-    data: {
-      restart: gameID
-    },
-    success: function(data) {
-      //handle.innerHTML = data;
-      console.log("resetGame()");
-    },
-    error: function (jqXHR) {
-      handle.innerText = 'Error: ' + jqXHR.status;
+function setPregame(){
+
+  if(typeof gamedata !== 'undefined') {
+    pregame = true;
+    gameID = pregameID;
+
+    for(var x = 0; x < gamedata.length; x++) {
+
+      if(gamedata[x][1] == 'blue_player') {
+        document.getElementById(gamedata[x][0]).className = 'tab-col blue-disc';
+      } else {
+        document.getElementById(gamedata[x][0]).className = 'tab-col red-disc';
+      }
+
     }
-  });
+
+    if(gamedata[gamedata.length-1][1] == 'blue_player') {
+      current_player = "red_player";
+    }
+
+
+
+    } else {
+      console.log("no gamedata");
+    }
+
+    if(typeof pregamewinner !== 'undefined') {
+      if(pregamewinner[0] !== null) {
+        document.getElementById("restart").innerHTML = "NEW GAME"; //new button
+        document.getElementById("restart").setAttribute("onclick","resetGame('newgame')");
+
+        finished = true;
+         if (pregamewinner[0] == 'blue_player') {
+          document.getElementById("user_winner").innerHTML = "BLUE PLAYER WON";
+        } else if (pregamewinner[0] == 'red_player') {
+          document.getElementById("user_winner").innerHTML = "RED PLAYER WON";
+        } else {
+          document.getElementById("user_winner").innerHTML = pregamewinner[0] + " WON";
+        }
+      }
+
+    }
+}
+
+function resetGame(task) {
+  if(task == 'restart') {
+    $.ajax({
+      type: 'POST',
+      url: '../game.php',
+      data: {
+        restart: gameID
+      },
+      success: function(data) {
+        //handle.innerHTML = data;
+        console.log("resetGame()");
+      },
+      error: function (jqXHR) {
+        handle.innerText = 'Error: ' + jqXHR.status;
+      }
+    });
+  }
+  document.getElementById("restart").setAttribute("onclick","resetGame('restart')");
+  document.getElementById("restart").innerHTML = "RESTART";
+
 
   flag = false;
   gameID = Date.now();
@@ -361,24 +421,18 @@ function checkVertical(tbl) {
 }
 
 function getLoginForm() {
-  document.getElementById("pre-game").style.display = "block";
-
   document.getElementById("login-form").style.display="block";
   document.getElementById("register-form").style.display="none";
   document.getElementById("guest-form").style.display="none";
 }
 
 function getRegisterForm() {
-  document.getElementById("pre-game").style.display = "block";
-
   document.getElementById("login-form").style.display="none";
   document.getElementById("register-form").style.display="block";
   document.getElementById("guest-form").style.display="none";
 }
 
 function getGuestForm() {
-  document.getElementById("pre-game").style.display = "block";
-
   document.getElementById("login-form").style.display="none";
   document.getElementById("register-form").style.display="none";
   document.getElementById("guest-form").style.display="block";
