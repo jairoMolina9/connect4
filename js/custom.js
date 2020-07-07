@@ -186,14 +186,14 @@ function setPregame(){
         finished = true;
 
          if (pregamewinner[0] == 'blue_player') {
-         displayBlue();
           document.getElementById("user_winner").innerHTML = "BLUE PLAYER WON";
+          displayBlue();
         } else if (pregamewinner[0] == 'red_player') {
-        displayRed();
           document.getElementById("user_winner").innerHTML = "RED PLAYER WON";
+          displayRed();
         } else {
-        displayBlue();
           document.getElementById("user_winner").innerHTML = pregamewinner[0] + " WON";
+          displayBlue();
         }
       }
     }
