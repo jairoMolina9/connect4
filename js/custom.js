@@ -90,8 +90,9 @@ function play(cel) {
           document.getElementById("user_turn").innerHTML = player_name;
       } else {
         document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
-        displayBlue();
       }
+
+      displayBlue();
     }
   }
 }
