@@ -70,8 +70,9 @@ function play(cel) {
       document.getElementById("restart").innerHTML = "NEW GAME"; //new button
       document.getElementById("restart").setAttribute("onclick","resetGame('newgame')");
 
-    } else {
+    } else { //red player goes
     document.getElementById("user_turn").innerHTML = "RED PLAYER";
+    displayRed();
     }
 
   } else if (current_player == "red_player") {
@@ -84,12 +85,12 @@ function play(cel) {
       document.getElementById("restart").innerHTML = "NEW GAME"; //new button
       document.getElementById("restart").setAttribute("onclick","resetGame('newgame')");
 
-    } else {
+    } else { //blue player goes (registered user or blue player)
       if(typeof player_name !== 'undefined') {
           document.getElementById("user_turn").innerHTML = player_name;
       } else {
-
         document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
+        displayBlue();
       }
     }
   }
@@ -242,6 +243,7 @@ function resetGame(task) {
       tbl.rows[row].cells[col].className = "tab-col";
     }
   }
+  displayBlue();
 }
 
 function sendMovement(cel) {
@@ -430,7 +432,13 @@ function displayBlue() {
   document.getElementById("game-heading").className = "blue-heading";
 
   if(typeof player_name !== 'undefined') {
-    document.getElementById("logout-btn").className = "neon-button-blue";
+
+    if(typeof is_guest !== 'undefined' ) {
+      document.getElementById("exit-btn").className = "neon-button-blue";
+    } else {
+      document.getElementById("logout-btn").className = "neon-button-blue";
+    }
+
   } else {
     document.getElementById("exit-btn").className = "neon-button-blue";
   }
@@ -446,7 +454,11 @@ function displayRed(){
   document.getElementById("game-heading").className = "red-heading";
 
   if(typeof player_name !== 'undefined') {
-    document.getElementById("logout-btn").className = "neon-button";
+    if(typeof is_guest !== 'undefined' ) {
+      document.getElementById("exit-btn").className = "neon-button";
+    } else {
+      document.getElementById("logout-btn").className = "neon-button";
+    }
   } else {
     document.getElementById("exit-btn").className = "neon-button";
   }

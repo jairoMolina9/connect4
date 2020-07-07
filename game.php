@@ -114,7 +114,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
           if($username[0] != 'guest') {
             ?>
-            <script> var player_name = <?php echo json_encode($username); ?></script>
+            <script>
+            var is_guest = "random";
+            var player_name = <?php echo json_encode($username); ?>;
+            </script>
             <?
           }
 
@@ -392,7 +395,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
      echo "<script type = 'text/javascript'>
      startGame();setPregame();
      </script>";
-     
+
      if($_SESSION['logged_in'] && $_SESSION['logged_in'] != '') {
 
        ?>
