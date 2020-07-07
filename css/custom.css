@@ -68,6 +68,21 @@ body {
   font-weight: bolder;
 }
 
+.navbar-toggler{
+  box-shadow: 0 0 5px #fff,
+    0 0 10px #ff2211,
+    0 0 11px #ff2211,
+    0 0 32px #ff2211;
+}
+
+.navbar-toggler:focus, .navbar-toggler:hover {
+  border-color: red;
+  box-shadow: 0 0 0px #fff,
+    0 0 0px #ff2211,
+    0 0 0px #ff2211,
+    0 0 0px #ff2211;
+}
+
 /* play_section */
 
 .play-section {
@@ -89,7 +104,7 @@ body {
 .blue-heading{
   /* border-style: solid;
   border-color: white; */
-
+  color: white;
   font-size: 55px;
   text-align: center;
   font-size: 3em;
@@ -133,7 +148,7 @@ body {
 .red-heading{
   /* border-style: solid;
   border-color: white; */
-
+  color:white;
   padding-top: 150px;
   padding-bottom: 100px;
 
@@ -215,6 +230,118 @@ body {
 /* Contact section */
 .contact-section {
   margin-top: 100px;
+  margin-bottom: 100px;
+}
+::placeholder{
+  color: #fff;
+  font-size: 15px;
+}
+input, select, textarea{
+    color: #fff;
+}
+
+#form-container {
+  box-shadow: 0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 11px #ff2211,
+    0 0 32px #ff2211;
+}
+
+#msg-form-section {
+  margin-top: 14px;
+  padding-top: 10px;
+}
+
+#name-form-section {
+  padding: 10px;
+}
+
+#email-form-section {
+    padding: 10px;
+}
+
+#form-name {
+  font-family: 'Press Start 2P';
+   border: none;
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  padding-bottom: 30px;
+  border-radius: 10px;
+
+  background-color: rgba(255, 255, 255, 0.1);
+
+}
+#form-email {
+  font-family: 'Press Start 2P';
+  border: none;
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  padding-bottom: 30px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#msg-area {
+  font-family: 'Press Start 2P';
+  border: none;
+  width: inherit;
+  resize:vertical;
+
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#form-btn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#info-form-section {
+
+  text-align: center;
+}
+
+.divider {
+  background-color: grey;
+}
+
+.red-title {
+  font-family: 'Press Start 2P';
+
+  text-shadow: 0 0 5px #fff,
+    0 0 10px #ff2211,
+    0 0 11px #ff2211,
+    0 0 32px #ff2211;
+}
+
+.blue-title {
+  font-family: 'Press Start 2P';
+
+  text-shadow:     0 0 5px #fff,
+    0 0 10px #0000d8,
+    0 0 11px #0000d8,
+    0 0 32px #0000d8;
+}
+
+.red-text {
+  font-family: 'Press Start 2P';
+  font-size: small;
+  color:#ff2211;
+}
+
+.icon {
+  color: #ff2211;
+  font-size: 30px;
+}
+
+.icon:hover{
+  color: #fff;
+  text-shadow: 0 0 5px #fff,
+    0 0 10px #ff2211,
+    0 0 11px #ff2211,
+    0 0 32px #ff2211;
 }
 
 
@@ -227,6 +354,7 @@ body {
 }
 
 .neon-button {
+  cursor: pointer;
   color: #fff;
   font-family: 'Press Start 2P';
   -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
@@ -237,10 +365,38 @@ body {
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   transition: all 0.5s;
+  background-color: transparent;
+  border: 0px;
 }
 
-.neon-button:hover {
+.neon-button:hover, .neon-button:focus {
+  outline:none;
   color: #ff2211;
+  -webkit-animation: none;
+  -moz-animation: none;
+  animation: none;
+  text-decoration: none;
+}
+
+.neon-button-blue {
+  cursor: pointer;
+  color: #fff;
+  font-family: 'Press Start 2P';
+  -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon2 1.5s ease-in-out infinite alternate;
+  animation: neon2 1.5s ease-in-out infinite alternate;
+
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  background-color: transparent;
+  border: 0px;
+}
+
+.neon-button-blue:hover, .neon-button-blue:focus {
+  outline:none;
+  color: #0000d8;
   -webkit-animation: none;
   -moz-animation: none;
   animation: none;
@@ -292,22 +448,103 @@ body {
   color: white;
 }
 
+.username-form {
+  font-family: 'Press Start 2P';
+  text-align: center;
+  border: none;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  margin-top: 50px;
+  font-size: 18;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.password-form {
+  font-family: 'Press Start 2P';
+  text-align: center;
+  border: none;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  font-size: 18;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.repassword-form {
+  font-family: 'Press Start 2P';
+  text-align: center;
+  border: none;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  margin-top: -50px;
+  margin-bottom: 50px;
+  font-size: 18;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.username1-form {
+  font-family: 'Press Start 2P';
+  text-align: center;
+  border: none;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 18;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.username1-form:focus, .repassword-form:focus .password-form:focus, .username-form:focus, .username1-form:hover, .repassword-form:hover, .password-form:hover, .username-form:hover{
+  outline:none;
+  -webkit-box-shadow: 0px 0px 36px -12px rgba(207,106,99,1);
+-moz-box-shadow: 0px 0px 36px -12px rgba(207,106,99,1);
+box-shadow: 0px 0px 36px -12px rgba(207,106,99,1);
+}
+
+#game-container-forms {
+  padding-bottom: 10px;
+  box-shadow: 0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 11px #ff2211,
+    0 0 32px #ff2211;
+}
+
 #register-form, #guest-form {
   display: none;
 }
 
 
 /* Game section */
+
 .connect4-section{
   text-align:center;
   display:none;
 }
 
-.left-pane {
+.game-red-ct {
+  box-shadow: 0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 11px #ff2211,
+    0 0 32px #ff2211;
+}
 
-    border-style: solid;
-    border-color: red;
+.game-blue-ct {
+  box-shadow: 0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 11px #0000d8,
+    0 0 32px #0000d8;
+}
+
+.left-pane {
   color: white;
+}
+
+.left-pane p{
+  font-size:14;
+
 }
 
 #game-id {
@@ -315,15 +552,10 @@ body {
 }
 
 .right-pane {
-
-    border-style: solid;
-    border-color: blue;
   color: white;
 }
 
 .mid-section {
-  border-style: solid;
-  border-color: white;
   color:white;
 }
 
@@ -348,14 +580,24 @@ body {
 }
 
 .table .blue-disc {
-  background: blue;
+  background: #0000d8;
+  box-shadow: 0 0 5px #0000d8, 0 0 10px #0000d8, 0 0 11px #0000d8, 0 0 32px #0000d8;
 }
 
 .table .red-disc {
-  background: red;
+  background: #ff2211;
+  box-shadow: 0 0 5px #ff2211, 0 0 10px #ff2211, 0 0 11px #ff2211, 0 0 32px #ff2211;
 }
 
 /*RESPONSIVE*/
-@media (max-width: 650px) {
-  /* TO DO */
+@media (max-width: 990px) {
+  #restart {
+    font-size: 12.5;
+  }
+}
+
+@media (max-width: 767px) {
+  #restart {
+    font-size: inherit;
+  }
 }

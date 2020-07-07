@@ -71,14 +71,13 @@ function play(cel) {
       document.getElementById("restart").setAttribute("onclick","resetGame('newgame')");
 
     } else {
-      document.getElementById("user_turn").innerHTML = "RED PLAYER";
+    document.getElementById("user_turn").innerHTML = "RED PLAYER";
     }
 
   } else if (current_player == "red_player") {
     insertRed(cel);
 
     if(checkWinner()) {
-
       document.getElementById("user_winner").innerHTML = "RED PLAYER WON";
       finished = true;
       sendWinner(current_player);
@@ -93,8 +92,6 @@ function play(cel) {
         document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
       }
     }
-
-
   }
 }
 
@@ -177,8 +174,6 @@ function setPregame(){
       current_player = "red_player";
     }
 
-
-
     } else {
       console.log("no gamedata");
     }
@@ -189,15 +184,18 @@ function setPregame(){
         document.getElementById("restart").setAttribute("onclick","resetGame('newgame')");
 
         finished = true;
+
          if (pregamewinner[0] == 'blue_player') {
           document.getElementById("user_winner").innerHTML = "BLUE PLAYER WON";
+          displayBlue();
         } else if (pregamewinner[0] == 'red_player') {
           document.getElementById("user_winner").innerHTML = "RED PLAYER WON";
+          displayRed();
         } else {
           document.getElementById("user_winner").innerHTML = pregamewinner[0] + " WON";
+          displayBlue();
         }
       }
-
     }
 }
 
@@ -232,6 +230,8 @@ function resetGame(task) {
   } else {
     document.getElementById("user_turn").innerHTML = "BLUE PLAYER";
   }
+  document.getElementById("user_turn").className = "blue-title";
+
   document.getElementById("user_winner").innerHTML = "";
 
   current_player = "blue_player";
@@ -418,6 +418,36 @@ function checkVertical(tbl) {
   total_numb = 0;
   }
   return false;
+}
+
+function displayBlue() {
+  document.getElementById("user_turn").className = "blue-title";
+  document.getElementById("game-id-header").className = "blue-title";
+  document.getElementById("game-id").className = "blue-title";
+  document.getElementById("restart").className = "neon-button-blue";
+  document.getElementById('game-container').className = 'container game-blue-ct';
+  document.getElementById('game-heading').className = 'blue-heading';
+
+  if(typeof player_name !== 'undefined') {
+    document.getElementById("logout-btn").className = "neon-button-blue";
+  } else {
+    document.getElementById("exit-btn").className = "neon-button-blue";
+  }
+}
+
+function displayRed(){
+  document.getElementById("user_turn").className = "red-title";
+  document.getElementById("game-id-header").className = "red-title";
+  document.getElementById("game-id").className = "red-title";
+  document.getElementById("restart").className = "neon-button";
+  document.getElementById('game-container').className = 'container game-red-ct';
+  document.getElementById('game-heading').className = 'red-heading';
+
+  if(typeof player_name !== 'undefined') {
+    document.getElementById("logout-btn").className = "neon-button";
+  } else {
+    document.getElementById("exit-btn").className = "neon-button";
+  }
 }
 
 function getLoginForm() {

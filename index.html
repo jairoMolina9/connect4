@@ -11,6 +11,8 @@
 
 <link rel="icon" href="img/favicon.png">
   </head>
+  <!-- FONT for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- bootstrap css -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- custom css -->
@@ -38,15 +40,15 @@
         <a class="nav-link" href="#contact">Contact</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=connect4">Search</a>
+        <a class="nav-link" target="_blank"  href="https://www.google.com/search?q=connect4">Search</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          More games
+          More Games
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="https://www.mathsisfun.com/games/connect4.html">Connect 4 v1</a>
-          <a class="dropdown-item" href="https://papergames.io/en/connect4">Connect 4 v2</a>
+          <a class="dropdown-item" target="_blank" href="https://www.mathsisfun.com/games/connect4.html">Connect 4 v1</a>
+          <a class="dropdown-item" target="_blank" href="https://papergames.io/en/connect4">Connect 4 v2</a>
         </div>
       </li>
     </ul>
@@ -128,7 +130,53 @@
   <div class = "red-heading">
     <h2> CONTACT US </h2>
   </div>
+  <div id = "form-container" class = "container">
 
+  <form id = "contact-form" action="https://formspree.io/xdogragv" method="POST">
+
+  <div class = "row">
+    <div class = "col-8 text-center" >
+
+      <div class = "row">
+    <div id = "name-form-section" class = "col-6">
+    <input type="text" name="name" id="form-name" placeholder="Name" required="">
+    </div>
+    <div id = "email-form-section" class = "col-6">
+    <input type="text" name="email" id="form-email" placeholder="Email" required="">
+    </div>
+  </div>
+
+  <div id = "msg-form-section" class = "row">
+    <div class = "col-12">
+      <textarea id = "msg-area" name="msg" rows="3" placeholder="Enter message here...."form = "contact-form"></textarea>
+</div>
+  </div>
+
+  <button id = "form-btn" class = "neon-button" type="submit" form="contact-form" value="Submit">Submit</button>
+  </div>
+
+    <div id = "info-form-section" class = "col-4">
+       <p class = "red-title"> <br> Jairo </p>
+       <p class = "red-text">
+         <a class = "icon" target="_blank" href = "https://www.linkedin.com/in/andres-molina-a0574714b/">
+         <i class="fa fa-linkedin-square"></i></a>
+         <a class = "icon" target="_blank" href = "https://github.com/jairoMolina9">
+         <i class="fa fa-github-square"></i></a>
+       </p>
+
+      <hr class = "divider">
+
+        <p class = "red-title">Weiting</p>
+        <p class = "red-text">
+          <a class = "icon" target="_blank" href = "index.html">
+          <i class="fa fa-linkedin-square"></i></a>
+          <a class = "icon" target="_blank" href = "index.html">
+          <i class="fa fa-github-square"></i></a>
+        </p>
+    </div>
+
+  </div>
+  </form>
 
 </div>
 

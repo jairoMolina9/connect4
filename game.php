@@ -57,34 +57,41 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $password2 = $_POST['password2'];
 
-        $sql = "SELECT username FROM  Users WHERE username = '$username'";
+        if($password == $password2) {
 
-        if($result = mysqli_query($link,$sql)) {
-          if(!mysqli_num_rows($result)) {
-            $_SESSION["logged_in"] = true;
-            $_SESSION["username"] = $username;
+                  $sql = "SELECT username FROM  Users WHERE username = '$username'";
 
-            $sql = ("INSERT INTO Users(username, password) VALUES ('$username', '$password')");
+                  if($result = mysqli_query($link,$sql)) {
+                    if(!mysqli_num_rows($result)) {
+                      $_SESSION["logged_in"] = true;
+                      $_SESSION["username"] = $username;
 
-            $result = mysqli_query($link, $sql);
-            ?>
-            <script> var player_name = '<?php echo $username; ?>'</script>
-            <?
-            print '<script>alert("Successfully registered!");</script>';
+                      $sql = ("INSERT INTO Users(username, password) VALUES ('$username', '$password')");
 
-          } else {
-            print '<script>alert("Username is taken...");</script>';
+                      $result = mysqli_query($link, $sql);
+                      ?>
+                      <script> var player_name = '<?php echo $username; ?>'</script>
+                      <?
+                      print '<script>alert("Successfully registered!");</script>';
 
-          }
+                    } else {
+                      print '<script>alert("Username is taken...");</script>';
+
+                    }
+                  }
+        } else {
+          print '<script>alert("Passwords do not match...");</script>';
         }
+
 
       } else {
         print '<script>alert("Enter username and password...");</script>';
       }
 
 
-    } else if ($_POST['submit'] == 'Guest') {
+    } else if ($_POST['submit'] == 'Code') {
 
       if(isset($_POST['pregameid']) && $_POST['pregameid'] != null) {
         $gameID = $_POST['pregameid'];
@@ -196,66 +203,134 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   <script src="js/custom.js"></script>
   </head>
   <body>
+    <nav class="navbar fixed-top navbar-expand-lg customnavbar">
+  <a class="navbar-brand" href="index.html">Connect 4</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon">&#8650;</span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/index.html#rules">Rules<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/index.html#history">History</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/index.html#about">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/index.html#contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" target="_blank"  href="https://www.google.com/search?q=connect4">Search</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          More Games
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" target="_blank" href="https://www.mathsisfun.com/games/connect4.html">Connect 4 v1</a>
+          <a class="dropdown-item" target="_blank" href="https://papergames.io/en/connect4">Connect 4 v2</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
 
     <div class = "login-section" id = "login-section1">
+      <div id = "game-container-forms" class = "container">
       <form action ="game.php" method = "post" id = "login-form">
-
-        <label>UserName  :</label><input type = "text" name = "username" class = "box"/><br /><br />
-        <label>Password  :</label><input type = "password" name = "password" class = "box" /><br/><br />
-
-        <input type = "submit" name = "submit" value = "Login"/>
-        <button onclick="getRegisterForm()" type = "button">Register</button>
-        <button onclick="getGuestForm()" type = "button">Guest</button>
+        <div class = "row justify-content-center">
+          <div class = "col-4">
+        <input type = "text" name = "username" placeholder="Username" required="required" class = "username-form"/><br /><br />
+      </div>
+    </div>
+      <div class = "row justify-content-center">
+        <div class = "col-4">
+          <input type = "password" required="required" name = "password" placeholder="Password" class = "password-form" /><br/><br />
+      </div>
+      </div>
+        <div class = "row justify-content-center">
+          <div class = "col-8">
+        <button class="neon-button" type="submit" name = "submit" form="login-form" value="Login">Login</button>
+        <button class = "neon-button" onclick="getRegisterForm()" type = "button">Register</button>
+        <button class = "neon-button" onclick="getGuestForm()" type = "button">Play Now</button>
+      </div>
+      </div>
       </form>
+
+
+
 
       <form action ="game.php" method = "post" id = "register-form" >
 
-        <label>UserName  :</label><input type = "text" name = "username" class = "box"/><br /><br />
-        <label>Password  :</label><input type = "password" name = "password" class = "box" /><br/><br />
-          <label>Re-enter Password  :</label><input type = "password" name = "password" class = "box" /><br/><br />
+        <input type = "text" required="required" placeholder="Username" name = "username" class = "username-form"/><br/><br/>
+        <input type = "password" required="required" placeholder="Password" name = "password" class = "password-form" /><br/><br/>
+        <input type = "password" required="required" placeholder="Confirm Password "name = "password2" class = "repassword-form" /><br/><br />
 
-        <button onclick="getLoginForm()" type = "button">Login</button>
-        <input type = "submit" name = "submit" value = "Register"/>
-        <button onclick="getGuestForm()" type = "button">Guest</button>
+        <button class="neon-button" onclick="getLoginForm()" type = "button">Login</button>
+        <button class="neon-button" type="submit" name = "submit" form="register-form" value="Register">Register</button>
+        <button class="neon-button" onclick="getGuestForm()" type = "button">Play Now</button>
       </form>
 
       <form action ="game.php" method = "post" id = "guest-form" >
 
-        <label>Enter GameID:</label><input type = "text" name = "pregameid" placeholder="Optional" class = "box"/><br /><br />
+        <input type = "text" name = "pregameid" placeholder="Enter Code (OPTIONAL)" class = "username1-form"/><br /><br />
 
 
-        <button onclick="getLoginForm()" type = "button">Login</button>
-        <button onclick="getRegisterForm()" type = "button">Register</button>
-        <input type = "submit" name = "submit"  value = "Guest"/>
+        <button class="neon-button" onclick="getLoginForm()" type = "button">Login</button>
+        <button class="neon-button" onclick="getRegisterForm()" type = "button">Register</button>
+        <button class="neon-button" type="submit" name = "submit" form="guest-form" value="Code">Play Now</button>
       </form>
+      </div>
 
     </div>
+  </div>
 
      <div class = "connect4-section" id = "connect4">
-       <div class = "red-heading">
+       <div id = "game-heading" class = "blue-heading">
          <h2> CONNECT 4 </h2>
        </div>
 
-       <div style = "border-style: solid;
-       border-color: green;" class = "container">
+       <div id = "game-container" class = "container game-blue-ct">
          <div class = "row">
 
            <div class = "col-md-2 left-pane">
-             <p> TURN: </p>
-             <p id = "user_turn">
+             <p class = "blue-title" id = "user_turn">
                <?php
                if(isset($_SESSION['username'])){
                  echo $_SESSION['username'];
                } else if (isset($_SESSION['guest-turn'])) {
-                 echo $_SESSION['guest-turn'];
+                 if($_SESSION['guest-turn'] == "guest") {
+                   echo "BLUE PLAYER";
+                 } else {
+                   echo $_SESSION['guest-turn'];
+                 }
+
                }else {
                  echo "BLUE PLAYER";
                }
                ?>
              </p>
-             <p> Game Unique ID: <br></p>
-             <p id = "game-id"></p>
+             <br>
+             <br>
+             <p class = "blue-title" id = "game-id-header"> Game ID: <br></p>
+             <p class = "blue-title" id = "game-id"></p>
            </div>
+
+           <?php
+           if(isset($_SESSION['guest-turn'])){
+           if($_SESSION['guest-turn'] == "RED PLAYER") {
+             echo "<script> document.getElementById('user_turn').className = 'red-title';
+             document.getElementById('game-id-header').className = 'red-title';
+             document.getElementById('game-id').className = 'red-title';</script>";
+               echo "<script> document.getElementById('game-container').className = 'container game-red-ct';</script>";
+           }
+         }
+
+            ?>
 
          <div class = "col-md-8 mid-section">
            <div class="table-responsive-lg">
@@ -280,8 +355,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
          </div>
 
          <div class = "col-md-2 right-pane">
-           <p id = "user_winner"></p>
-           <button id = "restart" onclick="resetGame('restart')" type="button" class="btn btn-outline-primary">RESTART</button>
+           <p id = "user_winner" class = "blue-title"></p>
+           <button id = "restart" onclick="resetGame('restart')" type="button" class="neon-button-blue">RESTART</button>
 
            <p style = "color: white;" id="response"></p>
            <?php
@@ -289,15 +364,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
              startGame();setPregame();
              </script>";
               if(isset($_SESSION['username'])) {
-
+                echo "<script> document.getElementById('restart').className = 'neon-button-blue';</script>";
             ?>
-           <a href="logout.php" class="btn btn-outline-primary">Logout</a>
+           <a id = "logout-btn" href="logout.php" class="neon-button-blue">Logout</a>
            <?
          } else {
            ?>
-           <a href="logout.php" class="btn btn-outline-primary">Exit</a>
+           <a id = "exit-btn" href="logout.php" class="neon-button-blue">Exit</a>
            <?
          }
+         if(isset($_SESSION['guest-turn'])){
+         if($_SESSION['guest-turn'] == "RED PLAYER") {
+            echo "<script> document.getElementById('exit-btn').className = 'neon-button';</script>";
+            echo "<script> document.getElementById('restart').className = 'neon-button';</script>";
+            echo "<script> document.getElementById('game-container').className = 'container game-red-ct';</script>";
+            echo "<script> document.getElementById('game-heading').className = 'red-heading';</script>";
+         }
+       }
          ?>
          </div>
 
