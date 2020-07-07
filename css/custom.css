@@ -540,6 +540,7 @@ box-shadow: 0px 0px 36px -12px rgba(207,106,99,1);
 
 .left-pane {
   color: white;
+  margin-top: 14%;
 }
 
 .left-pane p{
@@ -553,6 +554,7 @@ box-shadow: 0px 0px 36px -12px rgba(207,106,99,1);
 
 .right-pane {
   color: white;
+  margin-top: 18%;
 }
 
 .mid-section {
@@ -597,6 +599,16 @@ box-shadow: 0px 0px 36px -12px rgba(207,106,99,1);
 }
 
 @media (max-width: 767px) {
+  .left-pane{
+    margin-top: 10%;
+  }
+  .right-pane {
+    margin-top: 10%;
+    margin-bottom: 30;
+  }
+  #game-container {
+    margin-bottom: 30;
+  }
   #restart {
     font-size: inherit;
   }
