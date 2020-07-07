@@ -360,9 +360,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
            <p style = "color: white;" id="response"></p>
            <?php
-             echo "<script type = 'text/javascript'>
-             startGame();setPregame();
-             </script>";
               if(isset($_SESSION['username'])) {
                 echo "<script> document.getElementById('restart').className = 'neon-button-blue';</script>";
             ?>
@@ -373,6 +370,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
            <a id = "exit-btn" href="logout.php" class="neon-button-blue">Exit</a>
            <?
          }
+
          if(isset($_SESSION['guest-turn'])){
          if($_SESSION['guest-turn'] == "RED PLAYER") {
             echo "<script> document.getElementById('exit-btn').className = 'neon-button';</script>";
@@ -391,6 +389,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
      <?php
 
+     echo "<script type = 'text/javascript'>
+     startGame();setPregame();
+     </script>";
+     
      if($_SESSION['logged_in'] && $_SESSION['logged_in'] != '') {
 
        ?>
