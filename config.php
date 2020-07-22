@@ -8,9 +8,9 @@ function console_log( $data ){
 
 
    define('DB_SERVER', 'localhost:3306');
-   define('DB_USERNAME', 'spykegtp_1');
-   define('DB_PASSWORD', 'Nnc=-6Lhkxij');
-   define('DB_DATABASE', 'spykegtp_connectfour');
+   define('DB_USERNAME', '');
+   define('DB_PASSWORD', '');
+   define('DB_DATABASE', '');
    $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 
    if (!$link) {
