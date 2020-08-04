@@ -2,7 +2,6 @@
 include("config.php");
    session_start();
 
-
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if(isset($_POST['winner'])) {
@@ -14,9 +13,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       mysqli_query($link,$sql);
 
       if(isset($_SESSION['username'])) {
-
+        console_log($_SESSION['username']);//debugging purposes
         if($winner != 'blue_player' && $winner != 'red_player') {
-          $sql = "UPDATE Users SET wins = (SELECT COUNT(winner) FROM Games WHERE winner = '$winner') WHERE username = '$winner'";
+          $sql = "UPDATE Users SET wins = (SELECT COUNT(winner) FROM Games WHERE winner = '$winner') WHERE username = '$winner'"; //each game has a winner, count of games that have winner as username
           mysqli_query($link,$sql);
         } else {
           $username = $_SESSION['username'];
@@ -27,7 +26,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
 
-    $username = "empty";
   if(isset($_POST['submit'])) {
     if($_POST['submit'] == 'Login'){
     if( isset($_POST['username'])) {
@@ -35,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       ?>
       <script> var player_name = '<?php echo $username; ?>'</script>
       <?
-      $password = $_POST['password'] ?? '';
+      $password = md5($_POST['password'] ?? '');
 
       $sql = "SELECT username FROM Users WHERE username = '$username' AND password = '$password'";
 
@@ -44,6 +42,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       if(mysqli_num_rows($result) == 1) {
         $_SESSION["logged_in"] = true;
         $_SESSION["username"] = $username;
+        $_SESSION["show_list"] = true;
       } else {
         print '<script>alert("User does not exist...");</script>';
       }
@@ -56,8 +55,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       if( isset($_POST['username'])) {
 
         $username = $_POST['username'];
-        $password = $_POST['password'];
-        $password2 = $_POST['password2'];
+        //hashing function to encrypt passwords
+        $password = md5($_POST['password'] ?? '');
+        $password2 = md5($_POST['password'] ?? '');
 
         if($password == $password2) {
 
@@ -92,8 +92,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     } else if ($_POST['submit'] == 'Code') {
-
       if(isset($_POST['pregameid']) && $_POST['pregameid'] != null) {
+
+        if(isset($_SESSION['show_list'])) {
+          $_SESSION['show_list'] = false;//after choosing historical game)
+        }
+
         $gameID = $_POST['pregameid'];
         $sql = "SELECT coordinate, playerTurn FROM Moves WHERE gameID = '$gameID'";
 
@@ -102,12 +106,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
           print '<script>alert("Wrong game ID...");</script>';
         } else {
           $_SESSION['logged_in'] = true;
-          $gamedata = array();
 
+          //JSON Restore
+          // $gamedata = array();
+          // $myFile = "json/".$gameID.".json";
+          // $jsonData = file_get_contents($myFile);
+          // $gamedata_json = json_decode($jsonData, true);
+          //
+          // for($i = 0; $i < count($gamedata_json)-1; $i++) {
+          //   $gamedata[$i][0] = $gamedata_json[$i][0]['coord'];
+          //   $gamedata[$i][1] = $gamedata_json[$i][0]['player'];
+          // }
+
+
+          //DB Restore
+          $gamedata = array();
           $gamedata = mysqli_fetch_all($result, MYSQLI_NUM);
 
+          //get player_name
           $sql = "SELECT userID FROM Games WHERE gameID = '$gameID'";
-          //player_name
+
           $result = mysqli_query($link,$sql);
           $row = mysqli_fetch_all($result, MYSQLI_NUM);
           $username = $row[0];
@@ -119,6 +137,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             var player_name = <?php echo json_encode($username); ?>;
             </script>
             <?
+
+            if(isset($_SESSION['show_list'])) {
+              ?>
+              <script>
+               is_guest = "loggedinpregame"; //makes sure that when reconstructing from historical list the colors change properly
+              </script>
+              <?
+            }
           }
 
           $sql = "SELECT winner FROM Games WHERE gameID = '$gameID'";
@@ -126,7 +152,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
           $row = mysqli_fetch_all($result, MYSQLI_NUM);
           $pregamewinner = $row[0];
 
-          $sql = "SELECT playerTurn FROM Moves WHERE gameID = '$gameID' AND moveID = (SELECT MAX(moveID) FROM Moves WHERE gameID = '$gameID');";
+          $sql = "SELECT playerTurn FROM Moves WHERE gameID = '$gameID' AND moveID = (SELECT MAX(moveID) FROM Moves WHERE gameID = '$gameID');"; //gets current turn
           $result = mysqli_query($link, $sql);
           $row = mysqli_fetch_all($result, MYSQLI_NUM);
           $lasturn = $row[0][0];
@@ -158,11 +184,42 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $gameID = $_POST['gameID'];
     $coord = $_POST['coord'];
     $player = $_POST['player'];
-    // echo "gameID: " . $gameID . "\nCoord: " . $coord . "\nPlayer: " . $player;
 
+    //DATABASE STORE
     $sql = ("INSERT INTO Moves(gameID, coordinate, playerTurn) VALUES ('$gameID', '$coord', '$player')");
-
     mysqli_query($link,$sql);
+
+    //JSON STORE
+    $myFile = "json/".$gameID.".json"; //new file per game
+    $arr_data = array(); //used to append into json file
+
+    //if new file put gameID
+    if(0 == filesize($myFile)) {
+      $tmp->gameID = $gameID;
+      $jsonData = json_encode($tmp);
+      file_put_contents($myFile, $jsonData);
+    }
+
+
+    $new_data = array();
+    $new_data[] = array("coord"=>$coord, "player"=>$player);
+
+    //get json data
+    $jsondata = file_get_contents($myFile);
+
+    //covert json data to array
+    $arr_data = json_decode($jsondata,true);
+
+    //push new data to array
+    array_push($arr_data, $new_data);
+
+    //encode updated array to json
+    $jsondata = json_encode($arr_data, JSON_PRETTY_PRINT);
+
+    //put json to file
+    file_put_contents($myFile, $jsondata);
+
+
 
   } else if ( isset($_POST['restart'])) {
 
@@ -175,12 +232,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       }
 
 
-      if(isset($_POST['newgame'])) {
-        $gameID = $_POST['newgame'];
-        $name = $_POST['playername'];
-          $sql = ("INSERT INTO Games(gameID, userID) VALUES ('$gameID', '$name')");
-        mysqli_query($link,$sql);
-      }
+  if(isset($_POST['newgame'])) {
+    $gameID = $_POST['newgame'];
+    $name = $_POST['playername'];
+    $sql = ("INSERT INTO Games(gameID, userID) VALUES ('$gameID', '$name')");
+
+    mysqli_query($link,$sql);
+  }
 }
 
 ?>
@@ -264,9 +322,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       </form>
 
-
-
-
       <form action ="game.php" method = "post" id = "register-form" >
 
         <input type = "text" required="required" placeholder="Username" name = "username" class = "username-form"/><br/><br/>
@@ -303,16 +358,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
            <div class = "col-md-2 left-pane">
              <p class = "blue-title" id = "user_turn">
                <?php
-               if(isset($_SESSION['username'])){
-                 echo $_SESSION['username'];
-               } else if (isset($_SESSION['guest-turn'])) {
+                if (isset($_SESSION['guest-turn'])) {
                  if($_SESSION['guest-turn'] == "guest") {
                    echo "BLUE PLAYER";
                  } else {
                    echo $_SESSION['guest-turn'];
                  }
 
-               }else {
+               } else if(isset($_SESSION['username'])){
+                  echo $_SESSION['username'];
+                }else {
                  echo "BLUE PLAYER";
                }
                ?>
@@ -376,7 +431,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
          if(isset($_SESSION['guest-turn'])){
          if($_SESSION['guest-turn'] == "RED PLAYER") {
-            echo "<script> document.getElementById('exit-btn').className = 'neon-button';</script>";
+
+           if(isset($_SESSION['show_list'])) {
+             echo "<script> document.getElementById('logout-btn').className = 'neon-button';</script>";
+           } else {
+              echo "<script> document.getElementById('exit-btn').className = 'neon-button';</script>";
+           }
+
+
             echo "<script> document.getElementById('restart').className = 'neon-button';</script>";
             echo "<script> document.getElementById('game-container').className = 'container game-red-ct';</script>";
             echo "<script> document.getElementById('game-heading').className = 'red-heading';</script>";
@@ -392,19 +454,81 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
      <?php
 
-     echo "<script type = 'text/javascript'>
-     startGame();setPregame();
-     </script>";
-
      if($_SESSION['logged_in'] && $_SESSION['logged_in'] != '') {
+       if($_SESSION['show_list']) {
+         ?>
+         <script>
+         document.getElementById("login-section1").style.display="none";
+         </script>
+         <div id = "historical-section">
+           <div id="game-heading" class="blue-heading">
+         <h2> Welcome, <?php echo $_SESSION['username']; ?></h2>
+        </div>
 
+        <?php
+        $username = $_SESSION['username'];
+        $sql = "SELECT gameID FROM Games WHERE userID = '$username'";
+
+        $result = mysqli_query($link, $sql);
+        $sql1 = "SELECT wins,losses FROM Users where username = '$username'";
+        $result2 = mysqli_query($link, $sql1);
+        $row = mysqli_fetch_array($result2);
+        console_log($row);
+        echo "<div class ='container' style = 'text-align:center;'>";
+        echo "<p style = 'color:white;' class='rule-item'>WINS:". $row[0] . " | LOSSES:". $row[1] . "</p></div>"
+        ?>
+
+        <div class ="container" id = "container-list">
+
+          <div class = "row">
+            <div class = "col-md-10" id = "game-list">
+              <form action ="game.php" method = "post" id = "historical-form" >
+                <?php
+                while($row = mysqli_fetch_array($result)) {
+                  echo "<label class = 'rule-item' style = 'color:white;' for='" . $row['gameID'] . "'>". $row['gameID'] . "</label>";
+                  echo "<input type='radio' id='". $row['gameID']. "' name='pregameid' value='" . $row['gameID'] . "'><br>";
+
+                }
+                ?>
+
+                <button class="neon-button-blue" type="submit" name = "submit" form="historical-form" value="Code">Play Game</button>
+
+
+              </form>
+            </div>
+
+            <div class = "col-md-2" id = "historical-right-pane">
+              <button id = "list-newgame" class="neon-button-blue" onclick = "newgame2()">New Game</button>
+
+              <a href="logout.php" class="neon-button-blue">Logout</a>
+
+              <script type = "text/javascript">
+              function newgame2() {
+                startGame();
+                setPregame();
+                document.getElementById("historical-section").style.display="none";
+                document.getElementById("connect4").style.display="block";
+              }
+              </script>
+
+            </div>
+          </div>
+        </div>
+
+        </div>
+         <?
+
+       } else {
        ?>
        <script type = "text/javascript">
+       startGame();
+       setPregame();
        document.getElementById("login-section1").style.display="none";
        document.getElementById("connect4").style.display="block";
        </script>
        <?
      }
+    }
        ?>
 
 <!-- jquery cdn -->

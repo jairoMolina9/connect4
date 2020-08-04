@@ -145,6 +145,10 @@ body {
   color: white;
 }
 
+#history {
+  display:block;
+}
+
 .red-heading{
   /* border-style: solid;
   border-color: white; */
@@ -238,6 +242,11 @@ body {
 }
 input, select, textarea{
     color: #fff;
+}
+
+input[type=radio] {
+  width:10%;
+  height: 1.2em;
 }
 
 #form-container {
@@ -516,6 +525,13 @@ box-shadow: 0px 0px 36px -12px rgba(207,106,99,1);
   display: none;
 }
 
+/* History section */
+
+.history-section {
+  text-align: center;
+  display: none;
+}
+
 
 /* Game section */
 
@@ -589,6 +605,30 @@ box-shadow: 0px 0px 36px -12px rgba(207,106,99,1);
 .table .red-disc {
   background: #ff2211;
   box-shadow: 0 0 5px #ff2211, 0 0 10px #ff2211, 0 0 11px #ff2211, 0 0 32px #ff2211;
+}
+
+#container-list {
+  background: #3f3b3b69;
+  overflow: hidden;
+  border-radius: 40px;
+}
+
+#game-list {
+  border-right: 5px solid #181880;
+  padding: 25px 0px 25px 0px;
+}
+
+#historical-form {
+  text-align: center;
+  font-family: 'Press Start 2P';
+  font-size: 1em;
+}
+
+#historical-right-pane {
+  text-align: center;
+  font-size: 0.9em;
+  margin: auto;
+width: 50%;
 }
 
 /*RESPONSIVE*/

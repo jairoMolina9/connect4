@@ -434,7 +434,7 @@ function displayBlue() {
 
   if(typeof player_name !== 'undefined') {
 
-    if(typeof is_guest !== 'undefined' ) {
+    if(typeof is_guest !== 'undefined' && is_guest != "loggedinpregame" ) { //makes sure that when reconstructing from historical list the colors change properly
       document.getElementById("exit-btn").className = "neon-button-blue";
     } else {
       document.getElementById("logout-btn").className = "neon-button-blue";
@@ -455,7 +455,7 @@ function displayRed(){
   document.getElementById("game-heading").className = "red-heading";
 
   if(typeof player_name !== 'undefined') {
-    if(typeof is_guest !== 'undefined' ) {
+    if(typeof is_guest !== 'undefined' && is_guest != "loggedinpregame") {//makes sure that when reconstructing from historical list the colors change properly
       document.getElementById("exit-btn").className = "neon-button";
     } else {
       document.getElementById("logout-btn").className = "neon-button";
